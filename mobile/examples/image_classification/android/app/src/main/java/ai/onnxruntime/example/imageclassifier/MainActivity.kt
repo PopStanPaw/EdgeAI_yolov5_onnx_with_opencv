@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private var enableQuantizedModel: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        org.opencv.android.OpenCVLoader.initDebug()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ortEnv = OrtEnvironment.getEnvironment()
@@ -127,10 +129,10 @@ class MainActivity : AppCompatActivity() {
             detected_item_1.text = labelData[result.detectedIndices[0]]
             detected_item_value_1.text = "%.2f%%".format(result.detectedScore[0] * 100)
 
-            if (result.detectedIndices.size > 1) {
-                detected_item_2.text = labelData[result.detectedIndices[1]]
-                detected_item_value_2.text = "%.2f%%".format(result.detectedScore[1] * 100)
-            }
+                if (result.detectedIndices.size > 1) {
+                    detected_item_2.text = labelData[result.detectedIndices[1]]
+                    detected_item_value_2.text = "%.2f%%".format(result.detectedScore[1] * 100)
+                }
 
             if (result.detectedIndices.size > 2) {
                 detected_item_3.text = labelData[result.detectedIndices[2]]
@@ -143,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 
     // Read MobileNet V2 classification labels
     private fun readLabels(): List<String> {
-        return resources.openRawResource(R.raw.imagenet_classes).bufferedReader().readLines()
+        return resources.openRawResource(R.raw.obj_names).bufferedReader().readLines()
     }
 
     // Read ort model into a ByteArray, run in background
@@ -165,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             imageAnalysis?.clearAnalyzer()
             imageAnalysis?.setAnalyzer(
                     backgroundExecutor,
-                    ORTAnalyzer(createOrtSession(), ::updateUI)
+                    ORTAnalyzer(createOrtSession(), ::updateUI, this@MainActivity)
             )
         }
     }

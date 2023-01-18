@@ -56,4 +56,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.microsoft.onnxruntime:onnxruntime-android:latest.release'
+
+    implementation project(":opencv")
 }
