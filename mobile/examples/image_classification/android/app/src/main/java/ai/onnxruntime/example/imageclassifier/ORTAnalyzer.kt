@@ -27,6 +27,12 @@ import kotlin.jvm.internal.Ref
 import kotlin.math.exp
 import kotlin.math.max
 
+import org.bytedeco.javacpp.*
+import org.bytedeco.pytorch.*
+import org.bytedeco.pytorch.Module
+import org.bytedeco.pytorch.global.torch.*
+import org.opencv.core.Scalar
+
 internal data class Result(
         var detectedIndices: List<Int> = emptyList(),
         var detectedScore: MutableList<Float> = mutableListOf<Float>(),
